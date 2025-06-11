@@ -16,7 +16,7 @@
 ### MATLAB測位モデルおよび関連ファイルインストール  
 
 ``` powershell
-git clone https://github.com/Hitomaro/TOA-FOA-Positioning-Simulation.git
+git clone git@github.com:Hitomaro/TOA-FOA-Positioning-Simulation.git
 ```  
 
 ### GMAT&SPICE Toolkitインストール
