@@ -1,0 +1,544 @@
+%General Mission Analysis Tool(GMAT) Script
+%Created: 2025-04-15 17:15:17
+
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat1;
+MoonSat1.DateFormat = TAIModJulian;
+MoonSat1.Epoch = '21545';
+MoonSat1.CoordinateSystem = LunaFixed;
+MoonSat1.DisplayStateType = Keplerian;
+MoonSat1.SMA = 6142.999999999758;
+MoonSat1.ECC = 0.5999999999999859;
+MoonSat1.INC = 56.19999999999655;
+MoonSat1.RAAN = 360;
+MoonSat1.AOP = 89.999999999998;
+MoonSat1.TA = 0;
+MoonSat1.DryMass = 100;
+MoonSat1.Cd = 2.2;
+MoonSat1.Cr = 1.8;
+MoonSat1.DragArea = 15;
+MoonSat1.SRPArea = 1;
+MoonSat1.SPADDragScaleFactor = 1;
+MoonSat1.SPADSRPScaleFactor = 1;
+MoonSat1.AtmosDensityScaleFactor = 1;
+MoonSat1.ExtendedMassPropertiesModel = 'None';
+MoonSat1.NAIFId = -10018000;
+MoonSat1.NAIFIdReferenceFrame = -9018001;
+MoonSat1.OrbitColor = Red;
+MoonSat1.TargetColor = Teal;
+MoonSat1.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat1.CdSigma = 1e+70;
+MoonSat1.CrSigma = 1e+70;
+MoonSat1.Id = 'SatId';
+MoonSat1.Attitude = CoordinateSystemFixed;
+MoonSat1.SPADSRPInterpolationMethod = Bilinear;
+MoonSat1.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat1.SPADDragInterpolationMethod = Bilinear;
+MoonSat1.SPADDragScaleFactorSigma = 1e+70;
+MoonSat1.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat1.ModelFile = 'aura.3ds';
+MoonSat1.ModelOffsetX = 0;
+MoonSat1.ModelOffsetY = 0;
+MoonSat1.ModelOffsetZ = 0;
+MoonSat1.ModelRotationX = 0;
+MoonSat1.ModelRotationY = 0;
+MoonSat1.ModelRotationZ = 0;
+MoonSat1.ModelScale = 1;
+MoonSat1.AttitudeDisplayStateType = 'Quaternion';
+MoonSat1.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat1.AttitudeCoordinateSystem = LunaFixed;
+MoonSat1.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat2;
+MoonSat2.DateFormat = TAIModJulian;
+MoonSat2.Epoch = '21545';
+MoonSat2.CoordinateSystem = LunaFixed;
+MoonSat2.DisplayStateType = Keplerian;
+MoonSat2.SMA = 6142.999999999981;
+MoonSat2.ECC = 0.6000000000000131;
+MoonSat2.INC = 56.20000000000078;
+MoonSat2.RAAN = 360;
+MoonSat2.AOP = 89.9999999999999;
+MoonSat2.TA = 139.9999999999998;
+MoonSat2.DryMass = 100;
+MoonSat2.Cd = 2.2;
+MoonSat2.Cr = 1.8;
+MoonSat2.DragArea = 15;
+MoonSat2.SRPArea = 1;
+MoonSat2.SPADDragScaleFactor = 1;
+MoonSat2.SPADSRPScaleFactor = 1;
+MoonSat2.AtmosDensityScaleFactor = 1;
+MoonSat2.ExtendedMassPropertiesModel = 'None';
+MoonSat2.NAIFId = -10018001;
+MoonSat2.NAIFIdReferenceFrame = -9018001;
+MoonSat2.OrbitColor = [0 128 255];
+MoonSat2.TargetColor = Teal;
+MoonSat2.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat2.CdSigma = 1e+70;
+MoonSat2.CrSigma = 1e+70;
+MoonSat2.Id = 'SatId';
+MoonSat2.Attitude = CoordinateSystemFixed;
+MoonSat2.SPADSRPInterpolationMethod = Bilinear;
+MoonSat2.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat2.SPADDragInterpolationMethod = Bilinear;
+MoonSat2.SPADDragScaleFactorSigma = 1e+70;
+MoonSat2.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat2.ModelFile = 'aura.3ds';
+MoonSat2.ModelOffsetX = 0;
+MoonSat2.ModelOffsetY = 0;
+MoonSat2.ModelOffsetZ = 0;
+MoonSat2.ModelRotationX = 0;
+MoonSat2.ModelRotationY = 0;
+MoonSat2.ModelRotationZ = 0;
+MoonSat2.ModelScale = 1;
+MoonSat2.AttitudeDisplayStateType = 'Quaternion';
+MoonSat2.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat2.AttitudeCoordinateSystem = LunaFixed;
+MoonSat2.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat3;
+MoonSat3.DateFormat = TAIModJulian;
+MoonSat3.Epoch = '21545';
+MoonSat3.CoordinateSystem = LunaFixed;
+MoonSat3.DisplayStateType = Keplerian;
+MoonSat3.SMA = 6143.000000000467;
+MoonSat3.ECC = 0.6000000000000381;
+MoonSat3.INC = 56.19999999999982;
+MoonSat3.RAAN = 0;
+MoonSat3.AOP = 89.99999999999936;
+MoonSat3.TA = 180;
+MoonSat3.DryMass = 100;
+MoonSat3.Cd = 2.2;
+MoonSat3.Cr = 1.8;
+MoonSat3.DragArea = 15;
+MoonSat3.SRPArea = 1;
+MoonSat3.SPADDragScaleFactor = 1;
+MoonSat3.SPADSRPScaleFactor = 1;
+MoonSat3.AtmosDensityScaleFactor = 1;
+MoonSat3.ExtendedMassPropertiesModel = 'None';
+MoonSat3.NAIFId = -10018003;
+MoonSat3.NAIFIdReferenceFrame = -9018001;
+MoonSat3.OrbitColor = [255 255 0];
+MoonSat3.TargetColor = Teal;
+MoonSat3.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat3.CdSigma = 1e+70;
+MoonSat3.CrSigma = 1e+70;
+MoonSat3.Id = 'SatId';
+MoonSat3.Attitude = CoordinateSystemFixed;
+MoonSat3.SPADSRPInterpolationMethod = Bilinear;
+MoonSat3.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat3.SPADDragInterpolationMethod = Bilinear;
+MoonSat3.SPADDragScaleFactorSigma = 1e+70;
+MoonSat3.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat3.ModelFile = 'aura.3ds';
+MoonSat3.ModelOffsetX = 0;
+MoonSat3.ModelOffsetY = 0;
+MoonSat3.ModelOffsetZ = 0;
+MoonSat3.ModelRotationX = 0;
+MoonSat3.ModelRotationY = 0;
+MoonSat3.ModelRotationZ = 0;
+MoonSat3.ModelScale = 1;
+MoonSat3.AttitudeDisplayStateType = 'Quaternion';
+MoonSat3.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat3.AttitudeCoordinateSystem = LunaFixed;
+MoonSat3.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat4;
+MoonSat4.DateFormat = TAIModJulian;
+MoonSat4.Epoch = '21545';
+MoonSat4.CoordinateSystem = LunaFixed;
+MoonSat4.DisplayStateType = Keplerian;
+MoonSat4.SMA = 6143.000000000295;
+MoonSat4.ECC = 0.6000000000000045;
+MoonSat4.INC = 56.19999999999972;
+MoonSat4.RAAN = 180;
+MoonSat4.AOP = 89.99999999999974;
+MoonSat4.TA = 8.537736462515939e-07;
+MoonSat4.DryMass = 100;
+MoonSat4.Cd = 2.2;
+MoonSat4.Cr = 1.8;
+MoonSat4.DragArea = 15;
+MoonSat4.SRPArea = 1;
+MoonSat4.SPADDragScaleFactor = 1;
+MoonSat4.SPADSRPScaleFactor = 1;
+MoonSat4.AtmosDensityScaleFactor = 1;
+MoonSat4.ExtendedMassPropertiesModel = 'None';
+MoonSat4.NAIFId = -10018004;
+MoonSat4.NAIFIdReferenceFrame = -9018001;
+MoonSat4.OrbitColor = [0 255 64];
+MoonSat4.TargetColor = Teal;
+MoonSat4.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat4.CdSigma = 1e+70;
+MoonSat4.CrSigma = 1e+70;
+MoonSat4.Id = 'SatId';
+MoonSat4.Attitude = CoordinateSystemFixed;
+MoonSat4.SPADSRPInterpolationMethod = Bilinear;
+MoonSat4.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat4.SPADDragInterpolationMethod = Bilinear;
+MoonSat4.SPADDragScaleFactorSigma = 1e+70;
+MoonSat4.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat4.ModelFile = 'aura.3ds';
+MoonSat4.ModelOffsetX = 0;
+MoonSat4.ModelOffsetY = 0;
+MoonSat4.ModelOffsetZ = 0;
+MoonSat4.ModelRotationX = 0;
+MoonSat4.ModelRotationY = 0;
+MoonSat4.ModelRotationZ = 0;
+MoonSat4.ModelScale = 1;
+MoonSat4.AttitudeDisplayStateType = 'Quaternion';
+MoonSat4.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat4.AttitudeCoordinateSystem = LunaFixed;
+MoonSat4.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat5;
+MoonSat5.DateFormat = TAIModJulian;
+MoonSat5.Epoch = '21545';
+MoonSat5.CoordinateSystem = LunaFixed;
+MoonSat5.DisplayStateType = Keplerian;
+MoonSat5.SMA = 6143.000000000944;
+MoonSat5.ECC = 0.6000000000000262;
+MoonSat5.INC = 56.19999999999982;
+MoonSat5.RAAN = 180;
+MoonSat5.AOP = 89.99999999999865;
+MoonSat5.TA = 219.9999999999998;
+MoonSat5.DryMass = 100;
+MoonSat5.Cd = 2.2;
+MoonSat5.Cr = 1.8;
+MoonSat5.DragArea = 15;
+MoonSat5.SRPArea = 1;
+MoonSat5.SPADDragScaleFactor = 1;
+MoonSat5.SPADSRPScaleFactor = 1;
+MoonSat5.AtmosDensityScaleFactor = 1;
+MoonSat5.ExtendedMassPropertiesModel = 'None';
+MoonSat5.NAIFId = -10018005;
+MoonSat5.NAIFIdReferenceFrame = -9018001;
+MoonSat5.OrbitColor = [255 128 64];
+MoonSat5.TargetColor = Teal;
+MoonSat5.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat5.CdSigma = 1e+70;
+MoonSat5.CrSigma = 1e+70;
+MoonSat5.Id = 'SatId';
+MoonSat5.Attitude = CoordinateSystemFixed;
+MoonSat5.SPADSRPInterpolationMethod = Bilinear;
+MoonSat5.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat5.SPADDragInterpolationMethod = Bilinear;
+MoonSat5.SPADDragScaleFactorSigma = 1e+70;
+MoonSat5.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat5.ModelFile = 'aura.3ds';
+MoonSat5.ModelOffsetX = 0;
+MoonSat5.ModelOffsetY = 0;
+MoonSat5.ModelOffsetZ = 0;
+MoonSat5.ModelRotationX = 0;
+MoonSat5.ModelRotationY = 0;
+MoonSat5.ModelRotationZ = 0;
+MoonSat5.ModelScale = 1;
+MoonSat5.AttitudeDisplayStateType = 'Quaternion';
+MoonSat5.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat5.AttitudeCoordinateSystem = LunaFixed;
+MoonSat5.EulerAngleSequence = '321';
+
+%----------------------------------------
+%---------- Spacecraft
+%----------------------------------------
+
+Create Spacecraft MoonSat6;
+MoonSat6.DateFormat = TAIModJulian;
+MoonSat6.Epoch = '21545';
+MoonSat6.CoordinateSystem = LunaFixed;
+MoonSat6.DisplayStateType = Keplerian;
+MoonSat6.SMA = 6143.000000000443;
+MoonSat6.ECC = 0.600000000000002;
+MoonSat6.INC = 56.20000000000002;
+MoonSat6.RAAN = 180;
+MoonSat6.AOP = 89.9999999999993;
+MoonSat6.TA = 180.0000008537737;
+MoonSat6.DryMass = 100;
+MoonSat6.Cd = 2.2;
+MoonSat6.Cr = 1.8;
+MoonSat6.DragArea = 15;
+MoonSat6.SRPArea = 1;
+MoonSat6.SPADDragScaleFactor = 1;
+MoonSat6.SPADSRPScaleFactor = 1;
+MoonSat6.AtmosDensityScaleFactor = 1;
+MoonSat6.ExtendedMassPropertiesModel = 'None';
+MoonSat6.NAIFId = -10018006;
+MoonSat6.NAIFIdReferenceFrame = -9018001;
+MoonSat6.OrbitColor = [128 0 255];
+MoonSat6.TargetColor = Teal;
+MoonSat6.OrbitErrorCovariance = [ 1e+70 0 0 0 0 0 ; 0 1e+70 0 0 0 0 ; 0 0 1e+70 0 0 0 ; 0 0 0 1e+70 0 0 ; 0 0 0 0 1e+70 0 ; 0 0 0 0 0 1e+70 ];
+MoonSat6.CdSigma = 1e+70;
+MoonSat6.CrSigma = 1e+70;
+MoonSat6.Id = 'SatId';
+MoonSat6.Attitude = CoordinateSystemFixed;
+MoonSat6.SPADSRPInterpolationMethod = Bilinear;
+MoonSat6.SPADSRPScaleFactorSigma = 1e+70;
+MoonSat6.SPADDragInterpolationMethod = Bilinear;
+MoonSat6.SPADDragScaleFactorSigma = 1e+70;
+MoonSat6.AtmosDensityScaleFactorSigma = 1e+70;
+MoonSat6.ModelFile = 'aura.3ds';
+MoonSat6.ModelOffsetX = 0;
+MoonSat6.ModelOffsetY = 0;
+MoonSat6.ModelOffsetZ = 0;
+MoonSat6.ModelRotationX = 0;
+MoonSat6.ModelRotationY = 0;
+MoonSat6.ModelRotationZ = 0;
+MoonSat6.ModelScale = 1;
+MoonSat6.AttitudeDisplayStateType = 'Quaternion';
+MoonSat6.AttitudeRateDisplayStateType = 'AngularVelocity';
+MoonSat6.AttitudeCoordinateSystem = LunaFixed;
+MoonSat6.EulerAngleSequence = '321';
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------
+%---------- ForceModels
+%----------------------------------------
+
+Create ForceModel DefaultProp_ForceModel;
+DefaultProp_ForceModel.CentralBody = Luna;
+DefaultProp_ForceModel.PrimaryBodies = {Luna};
+DefaultProp_ForceModel.Drag = None;
+DefaultProp_ForceModel.SRP = Off;
+DefaultProp_ForceModel.RelativisticCorrection = Off;
+DefaultProp_ForceModel.ErrorControl = RSSStep;
+DefaultProp_ForceModel.GravityField.Luna.Degree = 50;
+DefaultProp_ForceModel.GravityField.Luna.Order = 50;
+DefaultProp_ForceModel.GravityField.Luna.StmLimit = 1000000;
+DefaultProp_ForceModel.GravityField.Luna.PotentialFile = 'grgm900c.cof';
+DefaultProp_ForceModel.GravityField.Luna.TideModel = 'None';
+
+%----------------------------------------
+%---------- Propagators
+%----------------------------------------
+
+Create Propagator DefaultProp;
+DefaultProp.FM = DefaultProp_ForceModel;
+DefaultProp.Type = RungeKutta89;
+DefaultProp.InitialStepSize = 0.0001;
+DefaultProp.Accuracy = 9.999999999999999e-12;
+DefaultProp.MinStep = 10;
+DefaultProp.MaxStep = 10;
+DefaultProp.MaxStepAttempts = 10;
+DefaultProp.StopIfAccuracyIsViolated = true;
+
+%----------------------------------------
+%---------- Coordinate Systems
+%----------------------------------------
+
+Create CoordinateSystem LunaFixed;
+LunaFixed.Origin = Luna;
+LunaFixed.Axes = BodyFixed;
+
+%----------------------------------------
+%---------- Subscribers
+%----------------------------------------
+
+Create OrbitView DefaultOrbitView;
+DefaultOrbitView.SolverIterations = Current;
+DefaultOrbitView.UpperLeft = [ 0.2401574803149606 0.002895752895752896 ];
+DefaultOrbitView.Size = [ 0.5764904386951631 0.7374517374517374 ];
+DefaultOrbitView.RelativeZOrder = 394;
+DefaultOrbitView.Maximized = false;
+DefaultOrbitView.Add = {MoonSat1, MoonSat2, MoonSat3, MoonSat4, MoonSat5, MoonSat6, Luna};
+DefaultOrbitView.CoordinateSystem = LunaFixed;
+DefaultOrbitView.DrawObject = [ true true true true true true true ];
+DefaultOrbitView.DataCollectFrequency = 1;
+DefaultOrbitView.UpdatePlotFrequency = 50;
+DefaultOrbitView.NumPointsToRedraw = 0;
+DefaultOrbitView.ShowPlot = true;
+DefaultOrbitView.MaxPlotPoints = 20000;
+DefaultOrbitView.ShowLabels = true;
+DefaultOrbitView.ViewPointReference = [ 0 0 0 ];
+DefaultOrbitView.ViewPointVector = [ 2000 0 0 ];
+DefaultOrbitView.ViewDirection = Luna;
+DefaultOrbitView.ViewScaleFactor = 10;
+DefaultOrbitView.ViewUpCoordinateSystem = LunaFixed;
+DefaultOrbitView.ViewUpAxis = Z;
+DefaultOrbitView.EclipticPlane = Off;
+DefaultOrbitView.XYPlane = On;
+DefaultOrbitView.WireFrame = Off;
+DefaultOrbitView.Axes = On;
+DefaultOrbitView.Grid = Off;
+DefaultOrbitView.SunLine = Off;
+DefaultOrbitView.UseInitialView = On;
+DefaultOrbitView.StarCount = 7000;
+DefaultOrbitView.EnableStars = On;
+DefaultOrbitView.EnableConstellations = On;
+
+Create GroundTrackPlot DefaultGroundTrackPlot;
+DefaultGroundTrackPlot.SolverIterations = Current;
+DefaultGroundTrackPlot.UpperLeft = [ 0 0.3996138996138996 ];
+DefaultGroundTrackPlot.Size = [ 0.4679415073115861 0.4353281853281853 ];
+DefaultGroundTrackPlot.RelativeZOrder = 375;
+DefaultGroundTrackPlot.Maximized = false;
+DefaultGroundTrackPlot.Add = {MoonSat1, MoonSat2, MoonSat3, MoonSat4, MoonSat5, MoonSat6};
+DefaultGroundTrackPlot.DataCollectFrequency = 1;
+DefaultGroundTrackPlot.UpdatePlotFrequency = 50;
+DefaultGroundTrackPlot.NumPointsToRedraw = 0;
+DefaultGroundTrackPlot.ShowPlot = true;
+DefaultGroundTrackPlot.MaxPlotPoints = 20000;
+DefaultGroundTrackPlot.CentralBody = Luna;
+DefaultGroundTrackPlot.TextureMap = 'Moon_HermesCelestiaMotherlode.jpg';
+
+Create XYPlot XYPlot1;
+XYPlot1.SolverIterations = Current;
+XYPlot1.UpperLeft = [ 0.2868391451068616 0.2345559845559846 ];
+XYPlot1.Size = [ 0.5989876265466817 0.7355212355212355 ];
+XYPlot1.RelativeZOrder = 370;
+XYPlot1.Maximized = false;
+XYPlot1.XVariable = MoonSat1.A1ModJulian;
+XYPlot1.YVariables = {MoonSat1.Luna.Altitude};
+XYPlot1.ShowGrid = true;
+XYPlot1.ShowPlot = true;
+
+Create EphemerisFile EphemerisFile1;
+EphemerisFile1.UpperLeft = [ 0 0 ];
+EphemerisFile1.Size = [ 0 0 ];
+EphemerisFile1.RelativeZOrder = 0;
+EphemerisFile1.Maximized = false;
+EphemerisFile1.Spacecraft = MoonSat1;
+EphemerisFile1.Filename = 'in_gravity\sat1.bsp';
+EphemerisFile1.FileFormat = SPK;
+EphemerisFile1.EpochFormat = UTCGregorian;
+EphemerisFile1.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile1.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile1.StepSize = IntegratorSteps;
+EphemerisFile1.Interpolator = Hermite;
+EphemerisFile1.InterpolationOrder = 7;
+EphemerisFile1.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile1.OutputFormat = LittleEndian;
+EphemerisFile1.IncludeCovariance = None;
+EphemerisFile1.WriteEphemeris = true;
+
+Create EphemerisFile EphemerisFile2;
+EphemerisFile2.UpperLeft = [ 0 0 ];
+EphemerisFile2.Size = [ 0 0 ];
+EphemerisFile2.RelativeZOrder = 0;
+EphemerisFile2.Maximized = false;
+EphemerisFile2.Spacecraft = MoonSat2;
+EphemerisFile2.Filename = 'in_gravity\sat2.bsp';
+EphemerisFile2.FileFormat = SPK;
+EphemerisFile2.EpochFormat = UTCGregorian;
+EphemerisFile2.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile2.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile2.StepSize = IntegratorSteps;
+EphemerisFile2.Interpolator = Hermite;
+EphemerisFile2.InterpolationOrder = 7;
+EphemerisFile2.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile2.OutputFormat = LittleEndian;
+EphemerisFile2.IncludeCovariance = None;
+EphemerisFile2.WriteEphemeris = true;
+
+Create EphemerisFile EphemerisFile3;
+EphemerisFile3.UpperLeft = [ 0 0 ];
+EphemerisFile3.Size = [ 0 0 ];
+EphemerisFile3.RelativeZOrder = 0;
+EphemerisFile3.Maximized = false;
+EphemerisFile3.Spacecraft = MoonSat3;
+EphemerisFile3.Filename = 'in_gravity\sat3.bsp';
+EphemerisFile3.FileFormat = SPK;
+EphemerisFile3.EpochFormat = UTCGregorian;
+EphemerisFile3.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile3.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile3.StepSize = IntegratorSteps;
+EphemerisFile3.Interpolator = Hermite;
+EphemerisFile3.InterpolationOrder = 7;
+EphemerisFile3.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile3.OutputFormat = LittleEndian;
+EphemerisFile3.IncludeCovariance = None;
+EphemerisFile3.WriteEphemeris = true;
+
+Create EphemerisFile EphemerisFile4;
+EphemerisFile4.UpperLeft = [ 0 0 ];
+EphemerisFile4.Size = [ 0 0 ];
+EphemerisFile4.RelativeZOrder = 0;
+EphemerisFile4.Maximized = false;
+EphemerisFile4.Spacecraft = MoonSat4;
+EphemerisFile4.Filename = 'in_gravity\sat4.bsp';
+EphemerisFile4.FileFormat = SPK;
+EphemerisFile4.EpochFormat = UTCGregorian;
+EphemerisFile4.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile4.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile4.StepSize = IntegratorSteps;
+EphemerisFile4.Interpolator = Hermite;
+EphemerisFile4.InterpolationOrder = 7;
+EphemerisFile4.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile4.OutputFormat = LittleEndian;
+EphemerisFile4.IncludeCovariance = None;
+EphemerisFile4.WriteEphemeris = true;
+
+Create EphemerisFile EphemerisFile5;
+EphemerisFile5.UpperLeft = [ 0 0 ];
+EphemerisFile5.Size = [ 0 0 ];
+EphemerisFile5.RelativeZOrder = 0;
+EphemerisFile5.Maximized = false;
+EphemerisFile5.Spacecraft = MoonSat5;
+EphemerisFile5.Filename = 'in_gravity\sat5.bsp';
+EphemerisFile5.FileFormat = SPK;
+EphemerisFile5.EpochFormat = UTCGregorian;
+EphemerisFile5.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile5.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile5.StepSize = IntegratorSteps;
+EphemerisFile5.Interpolator = Hermite;
+EphemerisFile5.InterpolationOrder = 7;
+EphemerisFile5.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile5.OutputFormat = LittleEndian;
+EphemerisFile5.IncludeCovariance = None;
+EphemerisFile5.WriteEphemeris = true;
+
+Create EphemerisFile EphemerisFile6;
+EphemerisFile6.UpperLeft = [ 0 0 ];
+EphemerisFile6.Size = [ 0 0 ];
+EphemerisFile6.RelativeZOrder = 0;
+EphemerisFile6.Maximized = false;
+EphemerisFile6.Spacecraft = MoonSat6;
+EphemerisFile6.Filename = 'in_gravity\sat6.bsp';
+EphemerisFile6.FileFormat = SPK;
+EphemerisFile6.EpochFormat = UTCGregorian;
+EphemerisFile6.InitialEpoch = InitialSpacecraftEpoch;
+EphemerisFile6.FinalEpoch = FinalSpacecraftEpoch;
+EphemerisFile6.StepSize = IntegratorSteps;
+EphemerisFile6.Interpolator = Hermite;
+EphemerisFile6.InterpolationOrder = 7;
+EphemerisFile6.CoordinateSystem = EarthMJ2000Eq;
+EphemerisFile6.OutputFormat = LittleEndian;
+EphemerisFile6.IncludeCovariance = None;
+EphemerisFile6.WriteEphemeris = true;
+
+
+%----------------------------------------
+%---------- Mission Sequence
+%----------------------------------------
+
+BeginMissionSequence;
+Propagate DefaultProp(MoonSat1, MoonSat2, MoonSat3, MoonSat4, MoonSat5, MoonSat6) {MoonSat1.ElapsedDays = 1.3};
