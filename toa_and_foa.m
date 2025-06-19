@@ -201,7 +201,7 @@ sat_ids_true = load_sat_ids(base_dir_true, sat_name_true, sat_num);             
 
 % 重力分布の影響を受けない理論上の衛星位置をGMAT出力から読み込み
 sat_name_ephemeris = 'sat';                                                                 % ファイルの衛星名
-base_dir_ephemeris = fullfile(getenv("LOCALAPPDATA"), 'GMAT', 'output', 'ephemeris');       % 軌道ファイルがあるフォルダ名
+base_dir_ephemeris = fullfile(getenv("LOCALAPPDATA"), 'GMAT', 'output', 'in_gravity');       % 軌道ファイルがあるフォルダ名
 sat_ids_ephemeris = load_sat_ids(base_dir_ephemeris, sat_name_ephemeris, sat_num);          % 各衛星のIDを取得
 
 % 衛星搭載クロック時刻 (本質ではないので読み飛ばしてOK)
@@ -328,6 +328,8 @@ est_err = vecnorm(user_pos - output_time_estimate_pos);
 sorted_est_err = sort(est_err);
 CI_95 = prctile(sorted_est_err, 95);
 fprintf("95%%信頼区間: %.2f(m)\n", CI_95);
+
+usr_sat_elevation(usr_sat_elevation < elev_mask_angle) = NaN;
 
 figure;
 scatter3(user_pos(1,:), user_pos(2,:), user_pos(3,:), 200, 'blue', 'filled', 'd');
