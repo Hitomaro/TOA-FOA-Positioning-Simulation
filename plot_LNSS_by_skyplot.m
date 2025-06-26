@@ -37,9 +37,10 @@ sat_ids = load_sats(base_dir, sat_name, sat_num);
 lat = deg2rad(-90);     % 緯度
 lon = deg2rad(0);       % 経度
 alt = 0;                % 高度
-user_pos = cspice_georec(lon, lat, alt, 'MOON', r_moon_km, r_moon_flatting);
+user_pos = cspice_georec(lon, lat, alt, r_moon_km, r_moon_flatting);
 
 % 時刻設定
+bsp_file = fullfile(base_dir, sprintf('%s1.bsp', sat_name));
 cover = cspice_spkcov(bsp_file, sat_ids(1), 1);
 start_time_et = cover(1) + 100;
 input_time = str2double(input('Input satellite position time(hr) > ', 's'));
@@ -51,8 +52,8 @@ hold on;
 colors = lines(sat_num);
 
 for s = 1:sat_num
-    [state, ~] = spice_spkpos(sat_ids(1, s), show_time_et, 'MOON', 'LT+S', user_pos);
-    los = state;
+    [state, ~] = cspice_spkpos(num2str(sat_ids(s)), show_time_et, 'IAU_MOON', 'LT+S', 'MOON');
+    los = state(:) - user_pos(:);
 
     % 座標変換行列R
     R = [-sin(lon)        , cos(lon)          , 0
