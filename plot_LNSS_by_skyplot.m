@@ -40,7 +40,6 @@ alt = 0;                % 高度
 user_pos = cspice_georec(lon, lat, alt, r_moon_km, r_moon_flatting);
 
 % 時刻設定
-bsp_file = fullfile(base_dir, sprintf('%s1.bsp', sat_name));
 cover = cspice_spkcov(bsp_file, sat_ids(1), 1);
 start_time_et = cover(1) + 100;
 input_time = str2double(input('Input satellite position time(hr) > ', 's'));
@@ -48,12 +47,12 @@ show_time_et = start_time_et + (input_time * 3600);
 
 % 位置描画
 figure;
-hold on;
-colors = lines(sat_num);
+Az_deg = [];
+El_deg = [];
 
 for s = 1:sat_num
     [state, ~] = cspice_spkpos(num2str(sat_ids(s)), show_time_et, 'IAU_MOON', 'LT+S', 'MOON');
-    los = state(:) - user_pos(:);
+    los = state;
 
     % 座標変換行列R
     R = [-sin(lon)        , cos(lon)          , 0
@@ -67,11 +66,15 @@ for s = 1:sat_num
 
     Az = mod(atan2(e, n), 2*pi);
     El = asin(u / norm(enu));
-    Az_deg = rad2deg(Az);
-    El_deg = rad2deg(El);
+    Az_d = rad2deg(Az);
+    El_d = rad2deg(El);
 
-    skyplot(Az_deg, El_deg, 'o', 'Color', colors(s, :), 'DisplayName', sprintf('SAT%d', s));
+    if El_d > 15
+        Az_deg(end+1) = Az_d;
+        El_deg(end+1) = El_d;
+    end
 end
 
+skyplot(Az_deg, El_deg);
+
 title('Skyplot of LNSS');
-legend('Location', 'southoutside');
