@@ -40,6 +40,7 @@ alt = 0;                % 高度
 user_pos = cspice_georec(lon, lat, alt, r_moon_km, r_moon_flatting);
 
 % 時刻設定
+bsp_file = fullfile(base_dir, sprintf('%s1.bsp', sat_name));
 cover = cspice_spkcov(bsp_file, sat_ids(1), 1);
 start_time_et = cover(1) + 100;
 input_time = str2double(input('Input satellite position time(hr) > ', 's'));
