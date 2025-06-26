@@ -2,7 +2,7 @@
 # 変数定義
 # -----------------------------
 $zipUrlSpice = "https://naif.jpl.nasa.gov/pub/naif/toolkit/MATLAB/PC_Windows_VisualC_MATLAB9.x_64bit/packages/mice.zip"
-$zipUrlGmat = "https://sourceforge.net/projects/gmat/files/GMAT/GMAT-R2025a/gmat-win-R2025a.zip"
+$zipUrlGmat = "https://sourceforge.net/projects/gmat/files/GMAT/GMAT-R2025a/gmat-win-R2025a.zip/download"
 $zipFileSpice = "$env:USERPROFILE\Downloads\mice.zip"
 $zipFileGmat = "$env:USERPROFILE\Downloads\gmat-win-R2025a.zip"
 $extractPath = "$env:LOCALAPPDATA"
@@ -28,7 +28,7 @@ Remove-Item -Path $zipFileSpice
 # GMAT ZIP ダウンロード
 # -----------------------------
 Write-Host "GMAT をダウンロードしています"
-Start-BitsTransfer -Source $zipUrlGmat -Destination $zipFileGmat
+Invoke-WebRequest -UserAgent "Wget" -Uri $zipUrlGmat -OutFile $zipFileGmat
 
 if (Test-Path $gmatExtractedPath) {
     Remove-Item -Recurse -Force $gmatExtractedPath
