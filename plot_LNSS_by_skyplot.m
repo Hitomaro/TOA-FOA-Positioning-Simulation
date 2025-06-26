@@ -55,5 +55,22 @@ for s = 1:sat_num
     los = state;
 
     % 座標変換行列R
+    R = [-sin(lon)        , cos(lon)          , 0
+        -sin(lat)*cos(lon), -sin(lat)*sin(lon), cos(lat)
+        cos(lat)*cos(lon) , cos(lat)*sin(lon) , sin(lat)];
+    
+    enu = R * los(:);
+    e = enu(1);
+    n = enu(2);
+    u = enu(3);
 
+    Az = mod(atan2(e, n), 2*pi);
+    El = asin(u / norm(enu));
+    Az_deg = rad2deg(Az);
+    El_deg = rad2deg(El);
+
+    skyplot(Az_deg, El_deg, 'o', 'Color', colors(s, :), 'DisplayName', sprintf('SAT%d', s));
 end
+
+title('Skyplot of LNSS');
+legend('Location', 'southoutside');
