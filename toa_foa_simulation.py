@@ -86,5 +86,13 @@ def main():
         else:
             estimate_usr_data[:3] = output_navigation_result[:, l-1]
 
+        sat_timing_position = []
+        counter = 0
+        timing_clock_bias = clock_bias(l)
+        
+        while True:
+            counter += 1
+            risidual = np.full((2*sat_num, 1), np.nan)
+
 if __name__ == '__main__':
     main()
