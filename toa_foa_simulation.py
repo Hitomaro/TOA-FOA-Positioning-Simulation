@@ -22,6 +22,17 @@ def load_sat_ids(base_dir, name, num):
         sat_id_list(i) = spice.spkobj(bsp_file, 1)
     return sat_id_list
 
+def get_sat_pos_vel(et, sat_ids, abcorr):
+    '''
+    引数
+        et: エフェメリス秒
+        sat_ids: 衛星ID配列
+        abcorr: 補正方法 (例: 'NONE', 'LT+S')
+    戻り値
+        pos: etにおける衛星位置ベクトル [[x], [y], [z]] (m)
+        vel: etにおける衛星速度ベクトル [[vx], [vy], [vz]] (m/s)
+    '''
+
 def main():
     load_spices()
     
@@ -93,6 +104,11 @@ def main():
         while True:
             counter += 1
             risidual = np.full((2*sat_num, 1), np.nan)
+
+            for n in range(sat_name):
+                # 衛星ごとのTOA計算処理
+                sat_id_in_gravity = sat_ids_in_gravity(n)
+                timing_sat_pos_in_gravity, timing_sat_vel_in_gravity = get_sat_pos_vel(et, sat_id_in_gravity)
 
 if __name__ == '__main__':
     main()
