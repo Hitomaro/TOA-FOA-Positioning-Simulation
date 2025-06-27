@@ -49,3 +49,4 @@ PowerShellで以下のスクリプトを実行する.
 - toa_and_foa.m   (TOA/FOA逐次測位用スクリプト)
 - toa_and_foa_multi_epoch.m   (TOA/FOAマルチエポック測位用スクリプト)
 - tools_installer.ps1 (GMAT&SPICE Toolkitインストール用PowerShellスクリプト)
+- plot_LNSS_by_skyplot.m (衛星配置可視化ツール)
