@@ -33,6 +33,17 @@ def get_sat_pos_vel(et, sat_ids, abcorr):
         vel: etにおける衛星速度ベクトル [[vx], [vy], [vz]] (m/s)
     '''
 
+    sat_id = str(sat_ids)
+    state_j2000, _ = spice.spkezr(sat_id, et, 'J2000', abcorr, 'MOON')
+
+    rot_mat = spice.sxform('J2000', 'IAU_MOON', et)
+    state = rot_mat * state_j2000
+    
+    pos = state[:3]
+    vel = state[3:]
+    
+    return pos, vel
+
 def main():
     load_spices()
     
@@ -106,9 +117,23 @@ def main():
             risidual = np.full((2*sat_num, 1), np.nan)
 
             for n in range(sat_name):
-                # 衛星ごとのTOA計算処理
+                # 真の衛星の軌道データ
                 sat_id_in_gravity = sat_ids_in_gravity(n)
-                timing_sat_pos_in_gravity, timing_sat_vel_in_gravity = get_sat_pos_vel(et, sat_id_in_gravity)
+                timing_sat_pos_in_gravity, timing_sat_vel_in_gravity = get_sat_pos_vel(et, sat_id_in_gravity, 'NONE')
+                sat_timing_position[:,n] = timing_sat_pos_in_gravity
+
+                # 時間ごとのバイアス込みの時刻情報
+                estimate_bias = estimate_usr_data(4)
+                estimate_et = et + clock_bias - estimate_bias
+
+                # エフェメリス上の軌道データ
+                sat_id_ephemeris = sat_ids_ephemeris(n)
+                timing_sat_pos_ephemeris, timing_sat_vel_ephemeris = get_sat_pos_vel(et, sat_id_ephemeris, 'NONE')
+
+                # 距離誤差ノイズ
+                noise = gausian_noise(n, l)
+                
+                # 衛星可視仰角条件適用
 
 if __name__ == '__main__':
     main()
