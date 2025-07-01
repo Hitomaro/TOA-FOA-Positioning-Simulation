@@ -4,7 +4,30 @@ import matplotlib
 import os
 import math
 
+# 大域変数定義ここから
 localapp = os.environ['LOCALAPPDATA']
+# 各種定数を宣言
+radius_moon_km = 1737.4                     # 月の半径(km)
+radius_moon_m = radius_moon_km * 1000       # 月の半径(m)
+c = 3e8                                     # 光速(m/s)
+f_carrier_MHz = 2483.5                      # 搬送波周波数(MHz)
+f_carrier = f_carrier_MHz * 10**6           # 搬送波周波数(Hz)
+clock_drift = 1e-6                          # クロックドリフト
+base_clock_bias = 0                         # 基準クロックバイアス
+moon_flatting = 0                           # 月を起伏のない球面と仮定する
+# 測位関連の技術的仕様を宣言
+pos_interval = 10                           # 測位時間間隔(sec)
+threshold = 1e-4                            # 十分に測位結果が収束したと判断する距離誤差(m)
+max_iter = 10                               # 最小二乗法の最高反復処理回数
+elev_mask_angle = 10                        # 最低測位可能仰角(仰角マスク角)
+sat_num = 6                                 # 測位衛星数
+sat_name = 'sat'                            # 衛星名
+# ユーザー位置設定
+lat = math.radians(-90)                     # 緯度
+lon = math.radians(0)                       # 経度
+alt = 0.0                                   # 高度
+user_pos = spice.georec(lon, lat, alt, radius_moon_km, moon_flatting)
+# 大域変数定義ここまで
 
 def load_spices():
     base_dir = '.\constant_files'
@@ -44,32 +67,60 @@ def get_sat_pos_vel(et, sat_ids, abcorr):
     
     return pos, vel
 
+def elevation_masking(sat_pos, user_pos):
+    '''
+    引数
+        sat_pos: [3x1] 衛星位置（x,y,z 月中心座標系）
+        user_pos: [3x1] ユーザー位置 （x,y,z 月中心座標系）
+    戻り値
+        el: ユーザー視点の衛星仰角(°)
+    '''
+    los = sat_pos - user_pos
+    n_user = user_pos / np.linalg.norm(user_pos)
+    r_los = los / np.linalg.norm(los)
+    cos_el = np.dot(n_user, r_los)
+    el = np.degrees(np.arcsin(cos_el))
+    return el
+
+def calc_TOA(user_data, sat_pos_in_gravity, sat_pos_ephemeris, clock_bias, noise):
+    '''
+    引数
+        user_data: [1x5] 推定ユーザーデータ（[1~3]ユーザー位置, [4]クロックバイアス, [5]クロックドリフト量（TOAでは使わない）
+        sat_pos_in_gravity: [3x1] 真の衛星位置(x, y, z: 月中心座標系)
+        sat_pos_ephemeris: [3x1] 軌道データ上の衛星位置(x, y, z: 月中心座標系)
+        clock_bias: 真のクロックバイアス
+        noise: 距離誤差ノイズ(m)
+    戻り値
+        residual: 疑似距離 - 観測距離残差 (m)
+        A: [1x4] ヤコビ行列
+    '''
+    # 推定情報の処理
+    estimate_user_pos = user_data[:3]                                           # 推定ユーザー位置[x_user, y_user, z_user]
+    estimate_clock_bias = user_data[4]                                          # 推定クロックバイアス
+    estimate_range = np.linalg.norm(sat_pos_ephemeris - estimate_user_pos)      # 推定位置を用いた衛星-ユーザー間疑似距離
+    estimate_pseudo_range = estimate_range + c * estimate_clock_bias            # 推定衛星-ユーザー間距離
+    
+    # 実情報の処理
+    true_range = np.linalg.norm(sat_pos_in_gravity - user_pos)
+    true_pseudo_range = true_range + c * clock_bias
+    obs_range = true_pseudo_range + noise
+    residual = estimate_pseudo_range - obs_range
+
+    # ヤコビ行列Aの作成
+    A = []
+    A[:3] = np.transpose(estimate_user_pos - sat_pos_in_gravity) / estimate_range
+    A[4] = c
+    
+    return residual, A
+
+def calc_FOA(user_data, sat_pos_in_gravity, sat_vel_in_gravity, sat_pos_ephemeris, sat_vel_ephemeris, user_pos, user_vel):
+    '''
+    入力
+        sat_pos_in_gravity
+    '''
+
 def main():
     load_spices()
-    
-    # 各種定数を宣言
-    radius_moon_km = 1737.4                     # 月の半径(km)
-    radius_moon_m = radius_moon_km * 1000       # 月の半径(m)
-    c = 3e8                                     # 光速(m/s)
-    f_carrier_MHz = 2483.5                      # 搬送波周波数(MHz)
-    f_carrier = f_carrier_MHz * 10**6           # 搬送波周波数(Hz)
-    clock_drift = 1e-6                          # クロックドリフト
-    base_clock_bias = 0                         # 基準クロックバイアス
-    moon_flatting = 0                           # 月を起伏のない球面と仮定する
-    
-    # 測位関連の技術的仕様を宣言
-    pos_interval = 10                           # 測位時間間隔(sec)
-    threshold = 1e-4                            # 十分に測位結果が収束したと判断する距離誤差(m)
-    max_iter = 10                               # 最小二乗法の最高反復処理回数
-    elev_mask_angle = 10                        # 最低測位可能仰角(仰角マスク角)
-    sat_num = 6                                 # 測位衛星数
-    sat_name = 'sat'                            # 衛星名
-
-    # ユーザー位置設定
-    lat = math.radians(-90)                     # 緯度
-    lon = math.radians(0)                       # 経度
-    alt = 0.0                                   # 高度
-    user_pos = spice.georec(lon, lat, alt, radius_moon_km, moon_flatting)
     
     # 「重力分布影響あり」の衛星軌道情報をGMAT出力から読み取り
     base_dir_in_gravity = os.path.join(localapp, 'GMAT', 'output', 'in_gravity')
@@ -114,7 +165,8 @@ def main():
         
         while True:
             counter += 1
-            risidual = np.full((2*sat_num, 1), np.nan)
+            residual = np.full((2*sat_num, 1), np.nan)
+            A = np.zeros((2*sat_num, 5))
 
             for n in range(sat_name):
                 # 真の衛星の軌道データ
@@ -133,7 +185,20 @@ def main():
                 # 距離誤差ノイズ
                 noise = gausian_noise(n, l)
                 
-                # 衛星可視仰角条件適用
+                # 衛星仰角計算
+                sat_el = elevation_masking(timing_sat_pos_in_gravity, user_pos)
+                output_elevation(n, l) = sat_el
+
+                # 衛星可視仰角判定
+                if sat_el > elev_mask_angle:
+                    # TOA測位計算処理
+                    residual(n), A[n, :4] = calc_TOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_clock_bias, noise)
+                    # FOA測位計算処理
+                    residual(n+sat_num), A[n+sat_num, :] = calc_FOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_sat_vel_in_gravity, timing_sat_vel_ephemeris)
+                else:
+                    residual(n) = np.nan()
+                    residual(n+sat_num) = np.nan()
+                    A[n, :] = np.nan()
 
 if __name__ == '__main__':
     main()
