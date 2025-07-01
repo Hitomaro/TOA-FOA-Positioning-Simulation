@@ -162,6 +162,10 @@ def main():
         sat_timing_position = []
         counter = 0
         timing_clock_bias = clock_bias(l)
+
+        # 時刻ごとのユーザー速度
+        [state, _] = spice.spkcpo('USER', et, 'IAU_MOON', 'OBSERVER', 'NONE', user_pos, 'MOON', 'IAU_MOON')
+        user_vel = state[4:6]
         
         while True:
             counter += 1
@@ -194,7 +198,7 @@ def main():
                     # TOA測位計算処理
                     residual(n), A[n, :4] = calc_TOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_clock_bias, noise)
                     # FOA測位計算処理
-                    residual(n+sat_num), A[n+sat_num, :] = calc_FOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_sat_vel_in_gravity, timing_sat_vel_ephemeris)
+                    residual(n+sat_num), A[n+sat_num, :] = calc_FOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_sat_vel_in_gravity, timing_sat_vel_ephemeris, user_vel)
                 else:
                     residual(n) = np.nan()
                     residual(n+sat_num) = np.nan()
