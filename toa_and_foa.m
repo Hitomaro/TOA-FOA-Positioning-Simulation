@@ -90,7 +90,7 @@ function [residual, A] = calc_TOA(estimate_user_data, timing_sat_pos, estimate_t
 
     % 推定情報処理
     estimate_user_pos = estimate_user_data(1:3);                            % 推定ユーザー位置[x_user, y_user, z_user]
-    estimate_clock_bias = estimate_user_data(4);                            % 推定クロックバイアス[vx_user, vy_user, vz_user]
+    estimate_clock_bias = estimate_user_data(4);                            % 推定クロックバイアス
     estimate_range = norm(estimate_timing_sat_pos - estimate_user_pos);     % 推測位置を用いた衛星-ユーザー間疑似距離
     estimate_pseudo_range = estimate_range + c * estimate_clock_bias;       % 推定衛星-ユーザー間距離
 
