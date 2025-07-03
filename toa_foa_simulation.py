@@ -82,6 +82,19 @@ def elevation_masking(sat_pos, user_pos):
     el = np.degrees(np.arcsin(cos_el))
     return el
 
+def calc_user_vel(user_pos):
+    '''
+    引数
+        user_pos: [3x1] ユーザー位置(x, y, z: 月中心座標系)
+    戻り値
+        user_vel: [3x1] ユーザー速度ベクトル(vx, vy, vz)
+    '''
+    
+    omega_moon = 2 * np.pi() / (27.32 * 24 * 60 * 60)
+    omega_vec = [[0], [0], [omega_moon]]
+    user_vel = np.cross(omega_vec, user_pos)
+    return user_vel
+
 def calc_TOA(user_data, sat_pos_in_gravity, sat_pos_ephemeris, clock_bias, noise):
     '''
     引数
@@ -115,9 +128,51 @@ def calc_TOA(user_data, sat_pos_in_gravity, sat_pos_ephemeris, clock_bias, noise
 
 def calc_FOA(user_data, sat_pos_in_gravity, sat_vel_in_gravity, sat_pos_ephemeris, sat_vel_ephemeris, user_pos, user_vel):
     '''
-    入力
-        sat_pos_in_gravity
+    引数
+        user_data: [1x5] 推定ユーザーデータ([1~3]ユーザー位置(x, y, z: 月中心座標系), [4]クロックバイアス(FOAでは使わない), [5]クロックドリフト)
+        sat_pos_in_gravity: [3x1] 真の衛星位置(x, y, z: 月中心座標系)
+        sat_vel_in_gravity: [3x1] 真の衛星速度ベクトル(vx, vy, vz)
+        sat_pos_ephemeris: [3x1] 軌道データ上の衛星位置(x, y, z: 月中心座標系)
+        sat_vel_ephemeris: [3x1] 軌道データ上の衛星速度ベクトル(vx, vy, vz)
+        user_pos: [3x1] 真のユーザー位置(x, y, z: 月中心座標系)
+        user_vel: [3x1] 真のユーザー速度ベクトル(vx, vy, vz)
+    戻り値
+        f_residual: 推定ドップラーシフト量と観測ドップラーシフト量の残差(Hz)
+        A: [1x5] ヤコビ行列
     '''
+
+    # 推定ユーザー情報処理
+    estimate_user_pos = user_data[:3]                       # 推定ユーザー位置[x_user, y_user, z_user]
+    estimate_user_vel = calc_user_vel(estimate_user_pos)    # 推定ユーザー速度[vx_user, vy_user, vz_user]
+    estimate_user_drift = user_data[5]                      # 推定ユーザークロックドリフト
+    
+    # 推定ユーザー観測ドップラーシフト量
+    r_est = sat_pos_ephemeris - estimate_user_pos           # 推定衛星位置 - 推定ユーザー位置
+    v_est = sat_vel_ephemeris - estimate_user_vel           # 推定衛星速度 - 推定ユーザー速度
+    denom_est = np.sqrt(np.sum(r_est)**2, 1)
+    estimate_los_unit = ((r_est) / denom_est)
+    f_d_est = (f_carrier * np.dot(v_est, estimate_los_unit) / c) + f_carrier * estimate_user_drift
+    
+    # ユーザー実観測ドップラーシフト量
+    r_obs = sat_pos_in_gravity - user_pos
+    v_obs = sat_vel_in_gravity - user_vel
+    denom_obs = np.sqrt(np.sum(r_obs)**2, 1)
+    obs_los_unit = ((r_obs) / denom_obs)
+    f_d_obs = (f_carrier * np.dot(v_obs, obs_los_unit) / c) + f_carrier * clock_drift
+
+    # 周波数測定残差
+    f_residual = f_d_est - f_d_obs
+    
+    # ヤコビ行列A
+    A = []
+    norm_r_est = np.linalg.norm(r_est)
+    term1 = v_est / norm_r_est
+    term2 = np.dot(v_est, r_est) * r_est / (norm_r_est**3)
+    A[:3] = - (f_carrier / c) * (term1 - term2)
+    A[4] = 0
+    A[5] = f_carrier
+
+    return f_residual, A
 
 def main():
     load_spices()
