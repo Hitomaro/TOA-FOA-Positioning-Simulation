@@ -402,5 +402,5 @@ ylabel("GDOP")
 xlabel("time (hr)");
 grid on;
 
-data1 = [simulation_time_hours; est_err];
-writematrix(data1, 'output.xlsx');
+%data1 = [simulation_time_hours; est_err];
+%writematrix(data1, 'output.xlsx');

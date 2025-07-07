@@ -89,7 +89,6 @@ def calc_user_vel(user_pos):
     戻り値
         user_vel: [3x1] ユーザー速度ベクトル(vx, vy, vz)
     '''
-    
     omega_moon = 2 * np.pi() / (27.32 * 24 * 60 * 60)
     omega_vec = [[0], [0], [omega_moon]]
     user_vel = np.cross(omega_vec, user_pos)
@@ -120,7 +119,7 @@ def calc_TOA(user_data, sat_pos_in_gravity, sat_pos_ephemeris, clock_bias, noise
     residual = estimate_pseudo_range - obs_range
 
     # ヤコビ行列Aの作成
-    A = []
+    A = np.empty((0, 4))
     A[:3] = np.transpose(estimate_user_pos - sat_pos_in_gravity) / estimate_range
     A[4] = c
     
@@ -140,7 +139,6 @@ def calc_FOA(user_data, sat_pos_in_gravity, sat_vel_in_gravity, sat_pos_ephemeri
         f_residual: 推定ドップラーシフト量と観測ドップラーシフト量の残差(Hz)
         A: [1x5] ヤコビ行列
     '''
-
     # 推定ユーザー情報処理
     estimate_user_pos = user_data[:3]                       # 推定ユーザー位置[x_user, y_user, z_user]
     estimate_user_vel = calc_user_vel(estimate_user_pos)    # 推定ユーザー速度[vx_user, vy_user, vz_user]
@@ -164,7 +162,7 @@ def calc_FOA(user_data, sat_pos_in_gravity, sat_vel_in_gravity, sat_pos_ephemeri
     f_residual = f_d_est - f_d_obs
     
     # ヤコビ行列A
-    A = []
+    A = np.empty((0,5))
     norm_r_est = np.linalg.norm(r_est)
     term1 = v_est / norm_r_est
     term2 = np.dot(v_est, r_est) * r_est / (norm_r_est**3)
@@ -200,64 +198,7 @@ def main():
     gausian_noise = np.random.randn(sat_num, len(simulation_time_hr)) * 10
 
     # 各種結果行列宣言
-    output_navigation_result = []
-    output_f_doppler = []
-    output_elevation = []
-    output_gdop = []
-
-    # 測位シミュレーションここから
-    for l in range(len(simulation_time_hr)):
-        et = simulation_time_et(l)
-        # 初回の測位もしくは全基観測不能状態から復帰した初回の観測では初期位置を推定位置とする
-        if l == 0 or any(math.isnan(estimate_usr_data)):
-            estimate_usr_data = [[0], [0], [-radius_moon_m], [0], [0]]
-        else:
-            estimate_usr_data[:3] = output_navigation_result[:, l-1]
-
-        sat_timing_position = []
-        counter = 0
-        timing_clock_bias = clock_bias(l)
-
-        # 時刻ごとのユーザー速度
-        [state, _] = spice.spkcpo('USER', et, 'IAU_MOON', 'OBSERVER', 'NONE', user_pos, 'MOON', 'IAU_MOON')
-        user_vel = state[4:6]
-        
-        while True:
-            counter += 1
-            residual = np.full((2*sat_num, 1), np.nan)
-            A = np.zeros((2*sat_num, 5))
-
-            for n in range(sat_name):
-                # 真の衛星の軌道データ
-                sat_id_in_gravity = sat_ids_in_gravity(n)
-                timing_sat_pos_in_gravity, timing_sat_vel_in_gravity = get_sat_pos_vel(et, sat_id_in_gravity, 'NONE')
-                sat_timing_position[:,n] = timing_sat_pos_in_gravity
-
-                # 時間ごとのバイアス込みの時刻情報
-                estimate_bias = estimate_usr_data(4)
-                estimate_et = et + clock_bias - estimate_bias
-
-                # エフェメリス上の軌道データ
-                sat_id_ephemeris = sat_ids_ephemeris(n)
-                timing_sat_pos_ephemeris, timing_sat_vel_ephemeris = get_sat_pos_vel(et, sat_id_ephemeris, 'NONE')
-
-                # 距離誤差ノイズ
-                noise = gausian_noise(n, l)
-                
-                # 衛星仰角計算
-                sat_el = elevation_masking(timing_sat_pos_in_gravity, user_pos)
-                output_elevation(n, l) = sat_el
-
-                # 衛星可視仰角判定
-                if sat_el > elev_mask_angle:
-                    # TOA測位計算処理
-                    residual(n), A[n, :4] = calc_TOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_clock_bias, noise)
-                    # FOA測位計算処理
-                    residual(n+sat_num), A[n+sat_num, :] = calc_FOA(estimate_usr_data, timing_sat_pos_in_gravity, timing_sat_pos_ephemeris, timing_sat_vel_in_gravity, timing_sat_vel_ephemeris, user_vel)
-                else:
-                    residual(n) = np.nan()
-                    residual(n+sat_num) = np.nan()
-                    A[n, :] = np.nan()
+    output_time_estimate_pos = 
 
 if __name__ == '__main__':
     main()
