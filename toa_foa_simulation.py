@@ -198,7 +198,7 @@ def main():
     gausian_noise = np.random.randn(sat_num, len(simulation_time_hr)) * 10
 
     # 各種結果行列宣言
-    output_time_estimate_pos = 
+    output_time_estimate_pos = np.zeros((3,simulation_time_et.size()))
 
 if __name__ == '__main__':
     main()
